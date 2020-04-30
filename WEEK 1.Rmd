@@ -1,0 +1,347 @@
+---
+title: "Getting started and Rnuts and bolts"
+output: html_notebook
+---
+
+This is an [R Markdown](http://rmarkdown.rstudio.com) Notebook. When you execute code within the notebook, the results appear beneath the code. 
+
+Try executing this chunk by clicking the *Run* button within the chunk or by placing your cursor inside it and pressing *Ctrl+Shift+Enter*. 
+
+```{r}
+plot(cars)
+```
+
+Add a new chunk by clicking the *Insert Chunk* button on the toolbar or by pressing *Ctrl+Alt+I*.
+
+When you save the notebook, an HTML file containing the code and output will be saved alongside it (click the *Preview* button or press *Ctrl+Shift+K* to preview the HTML file).
+
+The preview shows you a rendered HTML copy of the contents of the editor. Consequently, unlike *Knit*, *Preview* does not run any R code chunks. Instead, the output of the chunk when it was last run in the editor is displayed.
+
+
+----------------------------
+#Console Input & Evaluation
+
+##Entering Input
+
+At R prompt (>) we type expressions:  
+
+**<-**: assignment opperator  
+
+```{r}
+x <- 1
+# Creates x variable with value of 1
+```
+
+Symbols can be assigned values:  
+
+- Symbols: x, y, msg, a, b, M, A,...
+
+- Values: numbers (real, float, integer), or string
+
+**#**: comment operator
+
+
+##Printing
+
+Printing always indicates the element that is being printed, plus the place in its container.}
+
+```{r}
+print(x)
+# Explicit print command, returns value of x:
+#  [1] 1 -> where 1 is the first element, represented by the [1], meaning x is a vector, for now, 1x1
+```
+
+```{r}
+x
+# Autoprinting command, returns same as print(x)
+```
+
+```{r}
+x <- 1:20
+# Generates sequence from 1 to 20: [1,20] in Natral numbers.
+x
+```
+
+
+
+#Data types - R objects and Attributes
+
+##Objects
+
+R is object bades. It has 5 basic classes of objects:
+
+- Character
+- Numeric (real number)
+- Integer
+- Complex
+- Logical/Boolean
+
+The most basic object is a **vector**:
+
+- It may *only* contain objects of the same class.
+- If it's a **list**, then it may contain multiple classes of objects
+
+```{r}
+x = vector(mode = "numeric", length = 5)
+# vector(mode = " ", lenght = n) is a function that created empty vectors. Inputs are: mode (from class, quoted), and lenght (n is the length, integer)
+x
+```
+
+##Numbers
+
+Numbers are numeric objects (double-precission).
+- inf: special number
+- NaN: "Not a Number", undefined
+
+```{r}
+5L
+# If we want an integer, we specify so by addign the suffix "L"
+```
+
+##Atributes
+
+- Names, dimnames
+- Dimensions (matrices, arrays)
+- Class
+- Lenght
+- Other user-defined attributes/metadata
+
+```{r}
+attributes(x)
+# Acces attributes of vec. x
+```
+
+
+#Data Types - Vectors and Lists
+
+##Creating Vectors
+
+The **c()** function can be used to create vectors. Think of **c()** as standing for concatenate because it can be used to kind of *oncatenate* things together. We can also use the **vector function**, but it will in turn yield an empty vector.
+
+```{r}
+v1 <- c (0.5, 0.4)
+v1 #NUMERIC
+
+v2 <- c (TRUE, FALSE)
+v2 #LOGIC
+
+v3 <- c (T, F)
+v3 #LOGIC
+
+v4 <- c ("a", "b", "c")
+v4 #CHARACTER
+
+v5 <- 9:29
+v5 #INTEGER
+
+v6 <- c (complex(real = 1, imaginary = 1), complex (real = 6, imaginary = 12))
+v6 #COMPLEX
+```
+
+##Mixing Objects
+
+When different ojects are mixed in a vector, **coercion** occurs so that every element in the vector is of the same class.
+
+For example:
+
+```{r}
+y <- c (1.7, "a")
+y
+```
+
+- Here the character can't be a number, but a number can be a character; thus, the vector's class is character.
+
+```{r}
+y <- c (T, 2)
+y
+```
+- Here, 2 can't be logical, but T can be a number (namely, 1); therefore, the vector's class is numeric.
+
+```{r}
+y <- c ("a", TRUE)
+y
+```
+- It is evident that the vector's class is then character.
+
+###Explicit Coercion
+
+The examples above are implicit coercion, but we can make *explicit coercion* with the **as.__()** function. Nonsensical coercion will result in **NA**.
+
+```{r}
+x <- c (TRUE, F, 0, 1L, 2, 5.03927, "Amiens", "Tahrir", "Complex", complex(real = 1, imaginary = 1))
+
+#x contains all classes of objects within itself
+
+as.character(x)
+#x vector as character
+
+as.numeric(x)
+#x vector as numeric
+
+as.logical(x)
+#x vector as logical
+
+as.complex(x)
+#x vector as complex
+```
+
+##Lists
+
+Lists are a special type of vector that can contain elements of different classes. Lists are a very important data type in R.
+
+Lists are constructed with the function **list()**.
+
+For example:
+
+```{r}
+L1 <- list (1, "a", TRUE, complex (real = 1, imaginary = 5))
+L1
+```
+
+Notice the notation in the console when printing the elements of the list. This means that in each entry in the list, there is a vector of lenght 1.
+
+#Data Types - Matrices
+
+Matrices are vectors with a **dimension attribute**. It is an integer of length 2, **(nrow, ncol)**.
+
+```{r}
+m <- matrix (nrow = 2, ncol = 3)
+m
+```
+
+Notice that matrices are constructed colum-wise, meaning:
+
+```{r}
+m <- matrix (1:6, nrow = 2, ncol = 3)
+m
+# Notice how the matrix is filled out from the elements in the vector consisting of elements 1:6 per column.
+```
+
+Matrices can also be created from vectors by adding the dimension attribute:
+
+```{r}
+m <- 1:6
+m
+# This generates the sequence from 1 to 6
+dim (m) <- c (2, 3)
+# Here we modify the dimensions of m from 1x1 to 2x3, yielding:
+m
+```
+
+##C-dinging and R-binding
+
+Matrices can be created by **column binding** or **row binding**, respectively with the functions **cbind()** and **rbind()**, as follows:
+
+- **cbind()**
+```{r}
+x <- c (1, 2, 3, 5, 8)
+y <- x/exp(1)
+
+cbind(x,y)
+```
+
+- **rbind()**
+```{r}
+x <- c (1, 2, 3, 5, 8)
+y <- exp(x)
+
+rbind(x,y)
+```
+
+#Data Types - Factors
+
+Factors are a special type of vector used to represent **categorical data**, and can be *ordered* or *unordered*. They store labeled data that is categorical, but does not specifically have an order (male and female) or age from 10-20 yrs (10:20).
+
+Factors are special because they are treated specially by modelling functions like **lm()** and **glm()**, used for fitting linear models.
+
+Factors are better than using integer vectors becasue they are *self-describing*: meaning that having a variable that has values "Male" and "Female", if it's the case, may be more descriptive than a variable that just has 1 and 2.
+
+Using a factor variable, we make sure that the coding to the variable (it's meaning) is embeded to the variable itself.
+
+They are created with the **factor()** function, like this:
+
+```{r}
+f <- factor (c ("yes", "yes", "no", "yes", "no", "n/a"))
+f
+```
+Notice that the input for the factor function is a *character vector*. It may have several *levels*. In this case, there are 3: yes, no and N/A, or no answer.
+
+It prints out the values, and has a separate attribute, which are the labels.
+
+We can call the function **table()** on this factor, which will yield a table with the frequency for each level in the factor:
+
+```{r}
+table(f)
+```
+
+The **unclass()** function strips out the class for a vector, it will bring the the factor vector down to an integer vector. Underlying the new vector is the coding embeded in the factor:
+
+```{r}
+unclass(f)
+```
+- Here, 1 is n/a, 2 is no, and 3 is yes.
+
+##Order of the levels
+
+The order of the levels can be set using the **levels()** argument for the factor. This is usefull to know the baseline level in the factor; this is the first level, determined in alphabetical order. In our example, n/a is the baseline level.
+
+Using the **levels()** argument, we can tell R what the baseline level is and how we want it to be ordered according to our needs. For example:
+
+```{r}
+f <- factor (c ("yes", "yes", "no", "yes", "no", "n/a"), levels = c ("yes", "no", "n/a"))
+# Here, our baseline level is "yes", but we determined the order for "no" and "n/a"
+f
+```
+
+#Missing Values
+
+A special type of object is *missing value*, denoted by **NA**, or **NaN** for undefined mathematical operations.
+
+There are useful functions in treating missing values yielding logical vectors:
+
+```{r}
+x <- c (0,2,5,NA,10,1,NaN,0.2)
+```
+
+- **is.na()** is used to test object for NA values:
+
+```{r}
+is.na(x)
+# Notice how this reads NaN as NA
+```
+
+- **is.nan()** is used to test for NaN values:
+```{r}
+is.nan(x)
+# Notice how this function ignores NA as an NaN, contrary to what the past function did for NAN
+```
+
+NA values can have a class, too. You can have missing integer values, or missing character values, etc. Make the remakr that NaN is NA, but NA is not NaN.
+
+#Data Types - Data Frames
+
+They are key data types used in R used to store tabular data. They are represented as a special type of list, where every element of the list has to have the same length: that is, every column of the data frame is an element of the list in order to be a table, every column has to have the same length.
+
+Data frames can store different classes of objects in each column (just like lists); so the first column may be characters, the second column could be a factor, the third could be logical; it doesn't matter.
+
+They have special attributes, like **row.name()**. Every row of a Data Frame has a name, which is useful for annotating the data.
+
+They can be created by calling the **read.table()** function and the **read.csv()** function.
+
+You can create a matrix through a data frame using the **data.matrix()** function. If you hav
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
