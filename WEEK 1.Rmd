@@ -1,27 +1,15 @@
 ---
-title: "Getting started and Rnuts and bolts"
-output: html_notebook
+title: "Getting started and R nuts and bolts"
+output:
+  pdf_document: default
+  html_notebook: default
+  html_document:
+    df_print: paged
 ---
 
-This is an [R Markdown](http://rmarkdown.rstudio.com) Notebook. When you execute code within the notebook, the results appear beneath the code. 
+# Console Input and Evaluation
 
-Try executing this chunk by clicking the *Run* button within the chunk or by placing your cursor inside it and pressing *Ctrl+Shift+Enter*. 
-
-```{r}
-plot(cars)
-```
-
-Add a new chunk by clicking the *Insert Chunk* button on the toolbar or by pressing *Ctrl+Alt+I*.
-
-When you save the notebook, an HTML file containing the code and output will be saved alongside it (click the *Preview* button or press *Ctrl+Shift+K* to preview the HTML file).
-
-The preview shows you a rendered HTML copy of the contents of the editor. Consequently, unlike *Knit*, *Preview* does not run any R code chunks. Instead, the output of the chunk when it was last run in the editor is displayed.
-
-
-----------------------------
-#Console Input & Evaluation
-
-##Entering Input
+## Entering Input
 
 At R prompt (>) we type expressions:  
 
@@ -40,10 +28,9 @@ Symbols can be assigned values:
 
 **#**: comment operator
 
+## Printing
 
-##Printing
-
-Printing always indicates the element that is being printed, plus the place in its container.}
+Printing always indicates the element that is being printed, plus the place in its container.
 
 ```{r}
 print(x)
@@ -62,11 +49,9 @@ x <- 1:20
 x
 ```
 
+# Data types - R objects and Attributes
 
-
-#Data types - R objects and Attributes
-
-##Objects
+## Objects
 
 R is object bades. It has 5 basic classes of objects:
 
@@ -87,7 +72,7 @@ x = vector(mode = "numeric", length = 5)
 x
 ```
 
-##Numbers
+## Numbers
 
 Numbers are numeric objects (double-precission).
 - inf: special number
@@ -98,7 +83,7 @@ Numbers are numeric objects (double-precission).
 # If we want an integer, we specify so by addign the suffix "L"
 ```
 
-##Atributes
+## Atributes
 
 - Names, dimnames
 - Dimensions (matrices, arrays)
@@ -112,9 +97,9 @@ attributes(x)
 ```
 
 
-#Data Types - Vectors and Lists
+# Data Types - Vectors and Lists
 
-##Creating Vectors
+## Creating Vectors
 
 The **c()** function can be used to create vectors. Think of **c()** as standing for concatenate because it can be used to kind of *oncatenate* things together. We can also use the **vector function**, but it will in turn yield an empty vector.
 
@@ -138,7 +123,7 @@ v6 <- c (complex(real = 1, imaginary = 1), complex (real = 6, imaginary = 12))
 v6 #COMPLEX
 ```
 
-##Mixing Objects
+## Mixing Objects
 
 When different ojects are mixed in a vector, **coercion** occurs so that every element in the vector is of the same class.
 
@@ -163,7 +148,7 @@ y
 ```
 - It is evident that the vector's class is then character.
 
-###Explicit Coercion
+### Explicit Coercion
 
 The examples above are implicit coercion, but we can make *explicit coercion* with the **as.__()** function. Nonsensical coercion will result in **NA**.
 
@@ -185,7 +170,7 @@ as.complex(x)
 #x vector as complex
 ```
 
-##Lists
+## Lists
 
 Lists are a special type of vector that can contain elements of different classes. Lists are a very important data type in R.
 
@@ -200,7 +185,7 @@ L1
 
 Notice the notation in the console when printing the elements of the list. This means that in each entry in the list, there is a vector of lenght 1.
 
-#Data Types - Matrices
+# Data Types - Matrices
 
 Matrices are vectors with a **dimension attribute**. It is an integer of length 2, **(nrow, ncol)**.
 
@@ -228,7 +213,7 @@ dim (m) <- c (2, 3)
 m
 ```
 
-##C-dinging and R-binding
+## C-dinging and R-binding
 
 Matrices can be created by **column binding** or **row binding**, respectively with the functions **cbind()** and **rbind()**, as follows:
 
@@ -248,7 +233,7 @@ y <- exp(x)
 rbind(x,y)
 ```
 
-#Data Types - Factors
+# Data Types - Factors
 
 Factors are a special type of vector used to represent **categorical data**, and can be *ordered* or *unordered*. They store labeled data that is categorical, but does not specifically have an order (male and female) or age from 10-20 yrs (10:20).
 
@@ -281,7 +266,7 @@ unclass(f)
 ```
 - Here, 1 is n/a, 2 is no, and 3 is yes.
 
-##Order of the levels
+## Order of the levels
 
 The order of the levels can be set using the **levels()** argument for the factor. This is usefull to know the baseline level in the factor; this is the first level, determined in alphabetical order. In our example, n/a is the baseline level.
 
@@ -293,7 +278,7 @@ f <- factor (c ("yes", "yes", "no", "yes", "no", "n/a"), levels = c ("yes", "no"
 f
 ```
 
-#Missing Values
+# Missing Values
 
 A special type of object is *missing value*, denoted by **NA**, or **NaN** for undefined mathematical operations.
 
@@ -318,7 +303,7 @@ is.nan(x)
 
 NA values can have a class, too. You can have missing integer values, or missing character values, etc. Make the remakr that NaN is NA, but NA is not NaN.
 
-#Data Types - Data Frames
+# Data Types - Data Frames
 
 They are key data types used in R used to store tabular data. They are represented as a special type of list, where every element of the list has to have the same length: that is, every column of the data frame is an element of the list in order to be a table, every column has to have the same length.
 
@@ -328,18 +313,192 @@ They have special attributes, like **row.name()**. Every row of a Data Frame has
 
 They can be created by calling the **read.table()** function and the **read.csv()** function.
 
-You can create a matrix through a data frame using the **data.matrix()** function. If you hav
+You can create a matrix through a data frame using the **data.matrix()** function. You can't have a data frame that has many different types of objects, because if you coerce it into a matrix, you may get something unexpected.
+
+Data frames can also be created using de **data.frame()** function:
+
+```{r}
+x <- data.frame (first = 1:4, second = c (T, F, F, T))
+x
+nrow(x)
+ncol(x)
+```
 
 
+# Data Types - Names Attribute
+
+R obects can have names too. It's true for all R objects, not just Data Frames. This is useful for writing readabel code and self-describing objects.
+
+## Naming Vectors
+
+For example, we create the x vector:
+
+```{r}
+x <- c (1:4)
+```
+
+If we call the name attribute on x, we get a NULL argument.
+
+```{r}
+names(x)
+```
+
+However, we can name each eleemnt of the vector.
+
+```{r}
+names(x) <- c ("Fran", "Maggie", "Brightnon", "Gracie")
+```
+
+Now when we print out the x vector, we still get the values withint he vector, but when we call in the names() attribute, we get the names we assigned to each of the elements in x.
+
+```{r}
+x
+names(x)
+```
+
+## Namign Lists
+
+Lists can also have names. For example, we create a list with the **list()** function.
+
+```{r}
+x <- list(Fran = 1, Maggie = 2, Brighton = 3, Gracie = 4)
+x
+```
+
+In this case, the first element on the list is called Fran, and so on untill the fourth element, called Gracie.
+
+Printing the list prints the names and the values associated to their names.
+
+## Naming matrices
+
+Finally, matrices may have names too. These are called *dimnames*. For example:
+
+```{r}
+m <- matrix (1:10, nrow = 2, ncol = 5)
+dimnames (m) <- list (c( "Fran", "Maggie"),c("Brigthton", "Gracie", "Third", "Fourth", "Fifth")) 
+m
+```
+
+So when we print out the matrix, each column has a name, and also, each row has a name. The **dimnames()** attribute is a list containing a vector for the names of the rows, and a vector for the names of the columns.
+
+# Reading Tabular Data
+
+Now let's study how to read and write data in R
+
+There are a few different ways to do this, so let's talk first about the functions used in R to read and write data. 
+
+## Reading Data
+
+There are a few principal functions. First we have **read.table()** and **read.csv()**, for reading *tabular data*. They read *text files* that contain data that are stored in rows and columns, and return a data fram in R.
+
+The function **readLines()** is for reading lines of a *text file*, any type of file, and returns text as a chracter vector in R.
+
+The **source()** function is important for reading R code. If you have code in a file, this function will read that code into R.
+
+The **dget()** function is also for reading R code files, only it's for R objects that have been *dparsed* into text files.
+
+Finally, the **load()** and the **unserialize()** functions are for reading binary objects into R.
+
+## Writing Data
+
+The analogous functions for writing data into files are:
+
+- **write.table()**
+- **writeLines()**
+- **dump()**
+- **dput()**
+- **save()**
+- **serialize()**
+
+## Reading Data Files with read.table()
+
+This is one of the most commonly used functions for reading data. Let's talk about its arguments:
+
+- *file*: it's the name of a file or he name of a connection. It will be a string indicating the direction to the file on your computer.
+
+- *header*: a logical flag indicating whether the first line in the file is a header line, so if the first line has all the variable names in it, then that's not a piece of the data.
+
+- *sep*: a string indicating how the columns are separated. For example, a csv file separates columns in a row with commas, although many *.txt* files use semicolons, tabs or spaces. 
+
+- *colClasses*: another character vector whose lenght is the same as the number of columns in the data set; it indicates the classes of each column in the dataset.
+
+- *nrows*: the number of rows in the data set. This is not required, although it can be used.
+
+- *comment.char*: the character string that indicates what's the comments character. The default is the *$* symbol or the pound symbol. Anything to the right of that symbol is ignored.
+
+- *skip*: indicates the number of lines to skip from the beginning. Sometimes there can be some non-data lines at the beginning of the file.
+
+- *stringsAsFactors*: by default set to *TRUE*. The question is if R should encode character variables as factors.
 
 
+### read.table()
+
+```{r}
+data <- read.table ("mttravel.txt", header = TRUE, sep = ",", col.names = c("Month", "1958", "1959","1960"),colClasses= c("character","numeric", "numeric", "numeric"))
+data
+```
+
+```{r}
+biostats = read.table("biostats.txt", sep=",", header = TRUE, col.names = c("NAME","SEX","AGE","HEIGHT(IN)","WEIGHT(LBS)"))
+biostats
+```
 
 
+On a final note, **read.csv()** is exactly the same as **read.table()**, except that the default separator is a comma.
 
+## Reading Large Tables
 
+With larger datasets, we can do some hacks to make it easier and preventing R from choking.
 
+Go read the **help()** page for **read.table()**. In fact...
 
+```{r}
+help("read.table")
+```
 
+MEMORIZE IT.
+
+ALSO, make a rough calculation of how much memory you need to store the dataset you're about to read. If the dataset is larger than the amount of RAM on your computer, you should stop before destroying your computer.
+
+If there are no comments on your file, then simply set *comment.char = ""*. This will save you a lot of trouble.
+
+The **colClasses** argument is *very important* because if you don't specify it, R by default goes to every column and tries to figure out what type of data it is. When reading small datasets into R, this usually is no problem. But when you're working on large datasets, going through each element of your columns trying to figure what what class the column is working with, it takes time, it takes memory, and it can generally slow things down. If you can tell R what type of data you're working on, then R does not have to figure it out, then it will run a lot faster.
+
+But working on large datasets can also be a problem fro determining the classes of your columns. Thus, one thing we can do is read the first 100 rows (by soecifying the *nrows* argument) of your columns and let R figure out what classes they contain. Then, using de **sapply()** function, you can loop over each of the columns callign the class function, which will yield the vector containing all the classes R determined for your columns. Storing this in a *classes* vector will help you then use this with your complete dataset.
+
+The *nrows* argument helps with memory usage. If you can tell R how many rows are going to be read into R, then you can calculate the memory that is gonna be required and not have to figure it ou on the go.
+
+```{r}
+dataset <- read.csv("200430COVID19MEXICO.csv", nrows = 100)
+classes = sapply(dataset, class)
+classes
+tabAll <- read.csv("200430COVID19MEXICO.csv", colClasses = classes)
+table(factor(tabAll$SEXO))
+```
+
+##Know Thy System
+
+In general, when using R with larger datasets, it's useful to know a few things about your system:
+
+- How much memory is available?
+- What other applications are in use?
+- Are there other users logged into the same system?
+- What operating system?
+- Is the OS 32 or 64 bit?
+
+## Calculating Memory Requirements
+
+Suppose you have a data frame with 1,500,000 rows and 120 columns, all og which are numeric data. Roughly, you'd be using:
+
+1,500,000 x 120 is the number of elements of the data frame
+
+1,500,000 x 120 x 8 bytes/numeric object
+= 1,440,000,000 bytes
+
+= 1,440,000,000 bytes/2^20 bytes/MB
+= 1,373.29 MB
+
+= 1.34 GB
 
 
 
